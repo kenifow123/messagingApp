@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
+const accountRouter = require("./routes/accountRouter.js");
+const messagingRouter = require("./routes/messagingRouter.js");
 
 //if getting data from json
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
 
+app.use('/api/account', accountRouter);
+app.use('/api/messaging', messagingRouter);
 
 
 //to start the server on local port 3000
