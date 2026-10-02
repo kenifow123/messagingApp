@@ -1,13 +1,25 @@
-
+const { prisma }  = require('../lib/prisma.js');
 
 const sendUserMessagePost = async (req, res) => {
-    console.log('sendUserMessagePost');
-    res.json({message: 'sendUserMessagePost'});
+    const response = await prisma.message.create({
+        data: {
+            content: req.body.content,
+            authorId: req.user.id,
+            recipientId: Number(req.body.recipientId),
+        }
+    })
+    res.json({message: 'user to user message sent'});
 }
 
 
 const sendGroupMessagePost = async (req, res) => {
-
+    await prisma.message.create({
+        data: {
+            content: req.body.content,
+            authorId: req.user.id,
+            groupId: req.body.groupId,
+        }
+    })
 }
 
 

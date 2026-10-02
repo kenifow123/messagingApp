@@ -14,7 +14,14 @@ const signUpPost = async (req, res, next) => {
                 username: req.body.username,
             }
         })
-        res.json({message: 'Created user:'})
+
+        const profile = await prisma.profile.create({
+            data: {
+                displayName: req.body.username,
+                userid: req.user.id,
+            }
+        })
+        res.json({message: 'Created user with profile'})
     } catch (err) {
         console.log(err);
         next(err);
@@ -51,7 +58,18 @@ const loginPost = async (req, res, next) => {
     }
 }
 
+const createGroupPost = async (req, res) => {
+    await prisma.group.create({
+        data: {
+            name: req.body.name
+        }
+    })
+
+    res.json({message: 'Created group'})
+}
+
 module.exports = {
     signUpPost,
-    loginPost
+    loginPost,
+    createGroupPost
 }
